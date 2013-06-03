@@ -42,6 +42,8 @@ else
     TARGET_DIR=`readlink -f $1`
 fi
 
+cd ${SCRIPT_DIR}
+
 copy_skeleton_tool
 install_crontab
 make_git_repo
