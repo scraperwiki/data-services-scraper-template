@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # This script can be run regularly - it will kick off tool/main.py|sh and
 # send the output to ~/log
@@ -13,6 +13,13 @@ LOG_FILE=${LOG_DIR}/${DATE_NOW}.log
 
 ln -sf ${LOG_FILE} ${LOG_DIR}/latest
 
+VENV_DIR="%TARGET_DIR%/venv"
+if [ ! -d "${VENV_DIR}" ]; then
+    echo "ERROR: Can't find ${VENV_DIR} - have you run the first_run script?"
+    exit 1
+fi
+
+source ${VENV_DIR}/bin/activate
 for command in tool/main.py tool/main.sh
 do
     if [ -f "$command" ]; then
