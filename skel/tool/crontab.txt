@@ -23,4 +23,4 @@ MAILTO="dataservices@scraperwiki.com"
 
 # Run the scraper. This should specify the least complex possible command line
 # - the wrapper handles logging, run-one etc.
-@daily %TARGET_DIR%/tool/cron_run.sh
+@daily %TARGET_DIR%/run.sh
