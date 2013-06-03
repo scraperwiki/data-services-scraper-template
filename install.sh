@@ -6,13 +6,8 @@ function copy_skeleton_dir {
     cp -R skel/* ${TARGET_DIR}
 }
 
-function install_crontab {
-    CRONTAB_FILE=${TARGET_DIR}/tool/crontab.txt
-    crontab -l > ~/crontab.BAK
-    crontab -i ${CRONTAB_FILE}
-}
-
 function substitute_target_dir {
+    CRONTAB_FILE=${TARGET_DIR}/tool/crontab.txt
     RUN_SH=${TARGET_DIR}/run.sh
     sed -i "s|%TARGET_DIR%|${TARGET_DIR}|g" ${CRONTAB_FILE} ${RUN_SH}
 }
@@ -53,7 +48,6 @@ cd ${SCRIPT_DIR}
 copy_skeleton_dir
 substitute_target_dir
 rename_gitignore_files
-install_crontab
 make_git_repo
 print_success_message
 
