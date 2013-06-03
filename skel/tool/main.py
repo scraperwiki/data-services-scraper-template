@@ -3,7 +3,6 @@
 import requests
 import requests_cache
 import scraperwiki
-import lxml.html
 
 BASE_URL = 'http://www.google.com'
 
@@ -12,8 +11,7 @@ def main():
     install_cache()
 
     html = download_url(BASE_URL)
-    lxml_root = lxml.html.fromstring(html)
-    process(lxml_root)
+    process(html)
     scraperwiki.status('ok', 'Run was successful.')
 
 
@@ -29,7 +27,7 @@ def download_url(url):
     return response.content
 
 
-def process(lxml_root):
+def process(html):
     pass
 
 if __name__ == '__main__':
