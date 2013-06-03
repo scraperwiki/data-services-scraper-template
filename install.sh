@@ -20,17 +20,13 @@ function make_git_repo {
     popd
 }
 
-function setup_virtualenv {
-    virtualenv ${TARGET_DIR}/venv
+function rename_gitignore_files {
+    mv ${TARGET_DIR}/.gitignore.skel ${TARGET_DIR}/.gitignore
 }
 
 function print_success_message {
     echo 'Success!'
     echo "Now edit ${TARGET_DIR}/README.md and do your initial commit."
-}
-
-function rename_gitignore_files {
-    mv ${TARGET_DIR}/.gitignore.skel ${TARGET_DIR}/.gitignore
 }
 
 if [ "$#" -lt 1 ]; then
@@ -49,5 +45,6 @@ fi
 copy_skeleton_tool
 install_crontab
 make_git_repo
+rename_gitignore_files
 print_success_message
 
