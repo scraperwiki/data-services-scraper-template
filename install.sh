@@ -13,6 +13,10 @@ function install_crontab {
     crontab -i ${CRONTAB_FILE}
 }
 
+function rename_gitignore_files {
+    mv ${TARGET_DIR}/gitignore.skel ${TARGET_DIR}/.gitignore
+}
+
 function make_git_repo {
     pushd ${TARGET_DIR}
         git init
@@ -20,13 +24,11 @@ function make_git_repo {
     popd
 }
 
-function rename_gitignore_files {
-    mv ${TARGET_DIR}/.gitignore.skel ${TARGET_DIR}/.gitignore
-}
-
 function print_success_message {
+    echo
     echo 'Success!'
     echo "Now edit ${TARGET_DIR}/README.md and do your initial commit."
+    echo "You may want to run ${TARGET_DIR}/tool/first_run.sh"
 }
 
 if [ "$#" -lt 1 ]; then
@@ -46,7 +48,7 @@ cd ${SCRIPT_DIR}
 
 copy_skeleton_tool
 install_crontab
-make_git_repo
 rename_gitignore_files
+make_git_repo
 print_success_message
 
