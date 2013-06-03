@@ -14,7 +14,7 @@ if [ ! -d "venv" ]; then
     virtualenv venv
 fi
 
-pip install requirements.txt
+pip install -r requirements.txt
 
 if [ "`crontab -l`" == "" ]; then
     crontab tool/crontab.txt
