@@ -29,6 +29,10 @@ function print_success_message {
     echo "Now edit ${TARGET_DIR}/README.md and do your initial commit."
 }
 
+function rename_gitignore_files {
+    mv ${TARGET_DIR}/.gitignore.skel ${TARGET_DIR}/.gitignore
+}
+
 if [ "$#" -lt 1 ]; then
     echo
     echo "Usage: $0 <top-level directory>"
