@@ -14,6 +14,7 @@ if [ ! -d "venv" ]; then
     virtualenv venv
 fi
 
+source venv/bin/activate
 pip install -r requirements.txt
 
 if [ "`crontab -l`" == "" ]; then
@@ -21,6 +22,7 @@ if [ "`crontab -l`" == "" ]; then
 else
     echo "WARNING: not overwriting your existing crontab. You need to manually"
     echo "         run: crontab tool/crontab.txt"
+fi
 
 # Now we should have a working environment.
 # 
