@@ -20,9 +20,7 @@ def main():
 
 
 def install_cache():
-    requests_cache.install_cache(
-        cache_name='requests_cache.sqlite',
-        expire_after=(12 * 60 * 60))
+    requests_cache.install_cache(expire_after=(12 * 60 * 60))
 
 
 def download_url(url):
