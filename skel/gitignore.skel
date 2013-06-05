@@ -1,7 +1,11 @@
-log/*
-venv/*
-*.pyc
+/log/*
+/venv/*
+/BAK/*
+/box.json
 /scraperwiki.sqlite
-log/*
-venv/*
+/cache.sqlite
+/data-services-scraper-template/*
 /.*
+
+*.pyc
+
