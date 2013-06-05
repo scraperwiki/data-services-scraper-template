@@ -2,11 +2,12 @@
 # encoding: utf-8
 
 from __future__ import unicode_literals
+import sys
+import codecs
+import datetime
 import requests
 import requests_cache
 import scraperwiki
-import sys
-import codecs
 from collections import OrderedDict
 
 BASE_URL = 'http://www.google.com'
@@ -36,9 +37,9 @@ def download_url(url):
 
 def process(html):
     row = OrderedDict([
-        ('column_a', 2),
-        ('column_b', True),
-        ('column_b', 7.0)])
+        ('run_datetime', datetime.datetime.now()),
+        ('demo_column_a', True),
+        ('demo_column_b', 7.0)])
     yield row
 
 if __name__ == '__main__':
