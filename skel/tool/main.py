@@ -1,8 +1,12 @@
 #!/usr/bin/env python
+# encoding: utf-8
 
+from __future__ import string_literals
 import requests
 import requests_cache
 import scraperwiki
+import sys
+import codecs
 
 BASE_URL = 'http://www.google.com'
 
@@ -31,4 +35,5 @@ def process(html):
     pass
 
 if __name__ == '__main__':
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
     main()
