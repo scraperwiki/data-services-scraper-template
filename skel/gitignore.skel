@@ -1,2 +1,7 @@
 log/*
 venv/*
+*.pyc
+/scraperwiki.sqlite
+log/*
+venv/*
+/.*
