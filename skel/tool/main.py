@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from __future__ import string_literals
+from __future__ import unicode_literals
 import requests
 import requests_cache
 import scraperwiki
 import sys
 import codecs
+from collections import OrderedDict
 
 BASE_URL = 'http://www.google.com'
 
@@ -15,7 +16,9 @@ def main():
     install_cache()
 
     html = download_url(BASE_URL)
-    process(html)
+    for row in process(html):
+        scraperwiki.sqlite.save(unique_keys=[], data=row)
+
     scraperwiki.status('ok', 'Run was successful.')
 
 
@@ -32,7 +35,11 @@ def download_url(url):
 
 
 def process(html):
-    pass
+    row = OrderedDict([
+        ('column_a', 2),
+        ('column_b', True),
+        ('column_b', 7.0)])
+    yield row
 
 if __name__ == '__main__':
     sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
