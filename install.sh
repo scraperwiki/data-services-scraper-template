@@ -19,7 +19,6 @@ function rename_gitignore_files {
 function make_git_repo {
     pushd ${TARGET_DIR}
         git init
-        git add .
     popd
 }
 
