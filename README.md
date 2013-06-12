@@ -26,7 +26,7 @@ Now do your initial commit and push to BitBucket:
 
     git add .
     git commit -m "Initial commit, template scraper."
-    git push
+    git push -u origin --all   # to push up the repo for the first time
 
 Finally, activate your scraper (enable crontab, create virtualenv etc) by
 running the following command:
