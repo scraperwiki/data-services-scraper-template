@@ -12,6 +12,7 @@ REPO_DIR=${THIS_DIR}/..
 cd ${REPO_DIR}
 if [ ! -d "venv" ]; then
     virtualenv venv
+    cat 'source ~/venv/bin/activate' >> ~/.bash_profile
 fi
 
 source venv/bin/activate
@@ -27,5 +28,5 @@ fi
 # Now we should have a working environment.
 # 
 
-# [ insert installation code here ]
+# [ insert any scraper-specific initialisation code here ]
 
