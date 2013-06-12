@@ -12,7 +12,7 @@ REPO_DIR=${THIS_DIR}/..
 cd ${REPO_DIR}
 if [ ! -d "venv" ]; then
     virtualenv venv
-    cat 'source ~/venv/bin/activate' >> ~/.bash_profile
+    echo 'source ~/venv/bin/activate' >> ~/.bash_profile
 fi
 
 source venv/bin/activate
