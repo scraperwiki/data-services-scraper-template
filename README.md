@@ -12,15 +12,16 @@ the template repo with this command:
     rm -rf ./data-services-scraper-template
 
 Now head over to BitBucket and create a new private repository for this
-scraper. Select "I have an existing project to push up".
+scraper:
 
-    https://bitbucket.org/repo/create
+https://bitbucket.org/repo/create
+
+Select "I have an existing project to push up".
 
 This will give you a 'git remote' command for linking the local repo to the
 new remote repo - you should run this now.
 
-Back in your box, edit ./README.md with the name of the scraper and the URL of
-the new repo in BitBucket.
+Back in your box, edit ./README.md with the URL of the new repo in BitBucket.
 
 Now do your initial commit and push to BitBucket:
 
