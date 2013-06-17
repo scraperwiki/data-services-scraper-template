@@ -30,3 +30,4 @@ MAILTO="dataservices@scraperwiki.com"
 
 # Run the scraper. The only changes to this line should be the schedule.
 @daily %TARGET_DIR%/run.sh
+
