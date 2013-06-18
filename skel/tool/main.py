@@ -12,6 +12,7 @@ from collections import OrderedDict
 from cStringIO import StringIO
 
 BASE_URL = 'http://www.google.com'
+UNIQUE_KEYS = []
 
 
 def main():
@@ -19,7 +20,9 @@ def main():
 
     html = download_url(BASE_URL)
     for row in process(html):
-        scraperwiki.sqlite.save(unique_keys=[], data=row)
+        scraperwiki.sqlite.save(
+            unique_keys=UNIQUE_KEYS,
+            data=row)
 
     scraperwiki.status('ok', 'Run was successful.')
 
