@@ -9,6 +9,7 @@ import requests
 import requests_cache
 import scraperwiki
 from collections import OrderedDict
+from cStringIO import StringIO
 
 BASE_URL = 'http://www.google.com'
 
@@ -32,10 +33,13 @@ def install_cache():
 def download_url(url):
     response = requests.get(url)
     response.raise_for_status()
-    return response.content
+    return StringIO(response.content)
 
 
-def process(html):
+def process(f):
+    """
+    Take a file-like object and yield OrderedDicts.
+    """
     row = OrderedDict([
         ('run_datetime', datetime.datetime.now()),
         ('demo_column_a', True),
