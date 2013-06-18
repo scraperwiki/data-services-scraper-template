@@ -18,8 +18,8 @@ UNIQUE_KEYS = []
 def main():
     install_cache()
 
-    html = download_url(BASE_URL)
-    for row in process(html):
+    fobj = download_url(BASE_URL)
+    for row in process(fobj):
         scraperwiki.sqlite.save(
             unique_keys=UNIQUE_KEYS,
             data=row)
