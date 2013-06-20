@@ -24,7 +24,10 @@ def main():
             unique_keys=UNIQUE_KEYS,
             data=row)
 
-    scraperwiki.status('ok', 'Run was successful.')
+    status_text = 'Latest entry: {}'.format(get_most_recent_record())
+    print(status_text)
+
+    scraperwiki.status('ok', status_text)
 
 
 def install_cache():
@@ -37,6 +40,12 @@ def download_url(url):
     response = requests.get(url)
     response.raise_for_status()
     return StringIO(response.content)
+
+
+def get_most_recent_record(table_name='swdata', column='date'):
+    result = scraperwiki.sql.select(
+        "MAX({1}) AS most_recent FROM {0} LIMIT 1".format(table_name, column))
+    return result[0]['most_recent']
 
 
 def process(f):
