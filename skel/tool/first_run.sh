@@ -19,11 +19,14 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 if [ "`crontab -l`" == "" ]; then
+    echo "Installing tool/crontab.txt"
     crontab tool/crontab.txt
 else
     echo "WARNING: not overwriting your existing crontab. You need to manually"
     echo "         run: crontab tool/crontab.txt"
 fi
+
+echo "Now run: source ~/venv/bin/activate"
 
 # Now we should have a working environment.
 # 
