@@ -15,7 +15,7 @@ ln -sf ${LOG_FILE} ${LOG_DIR}/latest
 
 VENV_DIR="%TARGET_DIR%/venv"
 if [ ! -d "${VENV_DIR}" ]; then
-    echo "ERROR: Can't find ${VENV_DIR} - have you run the first_run script?"
+    echo "ERROR: Can't find ${VENV_DIR} - have you run the tool/first_run.sh ?"
     exit 1
 fi
 
