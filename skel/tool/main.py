@@ -4,12 +4,12 @@
 from __future__ import unicode_literals
 import sys
 import codecs
-import datetime
 import requests
 import requests_cache
-import scraperwiki
 from collections import OrderedDict
 from cStringIO import StringIO
+import scraperwiki
+from dateutil.parser import parse as parse_date
 
 BASE_URL = 'http://www.google.com'
 UNIQUE_KEYS = []
@@ -53,7 +53,6 @@ def process(f):
     Take a file-like object and yield OrderedDicts.
     """
     row = OrderedDict([
-        ('run_datetime', datetime.datetime.now()),
         ('demo_column_a', True),
         ('demo_column_b', 7.0)])
     yield row
