@@ -3,7 +3,9 @@ THIS_SCRIPT=`readlink -f $0`
 SCRIPT_DIR=`dirname ${THIS_SCRIPT}`
 
 function copy_skeleton_dir {
-    cp -R skel/* ${TARGET_DIR}
+    pushd skel/
+    cp -R . ${TARGET_DIR}
+    popd
 }
 
 function substitute_target_dir {
@@ -12,8 +14,12 @@ function substitute_target_dir {
     sed -i "s|%TARGET_DIR%|${TARGET_DIR}|g" ${CRONTAB_FILE} ${RUN_SH}
 }
 
-function rename_gitignore_files {
-    mv ${TARGET_DIR}/gitignore.skel ${TARGET_DIR}/.gitignore
+function rename_dotfiles {
+    for filename in ${TARGET_DIR}/dotfile.*
+    do
+        new_filename=$(echo $filename | sed 's/dotfile././g')
+        mv $filename $new_filename
+    done
 }
 
 function make_git_repo {
@@ -48,7 +54,7 @@ cd ${SCRIPT_DIR}
 
 copy_skeleton_dir
 substitute_target_dir
-rename_gitignore_files
+rename_dotfiles
 make_git_repo
 print_success_message
 
