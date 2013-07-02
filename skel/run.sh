@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 # This script can be run regularly - it will kick off tool/main.py|sh and
 # send the output to ~/log
