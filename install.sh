@@ -14,18 +14,19 @@ function substitute_target_dir {
     sed -i "s|%TARGET_DIR%|${TARGET_DIR}|g" ${CRONTAB_FILE} ${RUN_SH}
 }
 
+function make_git_repo {
+    pushd ${TARGET_DIR}
+        git init
+    popd
+}
+
 function rename_dotfiles {
     for filename in ${TARGET_DIR}/dotfile.*
     do
         new_filename=$(echo $filename | sed 's/dotfile././g')
         mv $filename $new_filename
+        git add -f $new_filename
     done
-}
-
-function make_git_repo {
-    pushd ${TARGET_DIR}
-        git init
-    popd
 }
 
 function print_success_message {
@@ -54,7 +55,7 @@ cd ${SCRIPT_DIR}
 
 copy_skeleton_dir
 substitute_target_dir
-rename_dotfiles
 make_git_repo
+rename_dotfiles
 print_success_message
 
