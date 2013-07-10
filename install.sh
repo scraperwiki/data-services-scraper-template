@@ -33,9 +33,7 @@ function make_git_repo {
 function print_success_message {
     echo
     echo 'Success!'
-    echo "Now edit ${TARGET_DIR}/README.md and do your initial commit."
-    echo
-    echo "Activate the scraper with: ${TARGET_DIR}/tool/first_run.sh"
+    echo "Now you have a brand new git new repo at ${TARGET_DIR}"
     echo
 }
 
