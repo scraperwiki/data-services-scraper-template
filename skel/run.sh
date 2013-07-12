@@ -5,7 +5,7 @@
 
 
 DATE_NOW=$(date +%Y-%m-%d_%H-%M-%S)
-STATUS_URL='https://beta.scraperwiki.com/api/status'
+STATUS_URL='https://scraperwiki.com/api/status'
 LOG_DIR=~/log
 
 mkdir -p ${LOG_DIR}
