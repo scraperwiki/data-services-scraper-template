@@ -29,6 +29,7 @@ do
             echo "$@ exited with code: ${RETCODE}"
             cat ${LOG_FILE}
             curl --data "type=error" ${STATUS_URL} > /dev/null 2>&1
+            git remote -v
             exit
         fi
     fi
