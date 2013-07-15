@@ -25,8 +25,7 @@ Back in your box, edit ./README.md with the URL of the new repo in BitBucket.
 
 Now do your initial commit and push to BitBucket:
 
-    git add .
-    git commit -m "Initial commit, template scraper."
+    git status
     git push -u origin --all   # to push up the repo for the first time
 
 Finally, activate your scraper (enable crontab, create virtualenv etc) by

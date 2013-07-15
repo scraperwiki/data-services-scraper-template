@@ -27,6 +27,8 @@ function make_git_repo {
     pushd ${TARGET_DIR}
         git init
         git add -f .gitignore
+        git add .
+        git commit -m "Initial commit, scraper template."
     popd
 }
 
