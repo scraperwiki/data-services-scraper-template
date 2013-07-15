@@ -1,7 +1,18 @@
-# Installation
+# Data Source
 
-To install on a fresh box, SSH in and delete all the files in the home
-directory then clone and follow the steps below:
+The data is generated from [some url](http://somewhere.com)
 
-    git clone https://bitbucket.org/scraperwikids/XXX ./
-    ./tool/first_run.sh
+The raw data is stored in the **example** table.
+
+# Processing
+
+Data in the **example** table is cleaned up using the **xyz** library.
+
+# Output
+
+The processed output is found in the **foo** table of the dataset.
+
+# Logging
+
+The scraper records a full log of each run in its [log directory](./log)
+
