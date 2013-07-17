@@ -33,7 +33,7 @@ def main():
 def install_cache():
     requests_cache.install_cache(
         expire_after=(12 * 60 * 60),
-        allowable_methods=('GET', 'POST'))
+        allowable_methods=('GET',))
 
 
 def download_url(url):
