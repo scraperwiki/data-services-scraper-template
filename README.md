@@ -14,7 +14,7 @@ the template repo with this command:
 Now head over to BitBucket and create a new private repository for this
 scraper:
 
-https://bitbucket.org/repo/create
+[https://bitbucket.org/repo/create](https://bitbucket.org/repo/create)
 
 Select "I have an existing project to push up".
 
