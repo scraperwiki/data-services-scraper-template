@@ -8,8 +8,8 @@ import requests
 import requests_cache
 from collections import OrderedDict
 from cStringIO import StringIO
+import datetime
 import scraperwiki
-from dateutil.parser import parse as parse_date
 
 BASE_URL = 'http://www.google.com'
 UNIQUE_KEYS = []
@@ -23,8 +23,12 @@ def main():
         scraperwiki.sqlite.save(
             unique_keys=UNIQUE_KEYS,
             data=row)
+    update_status()
 
-    status_text = 'Latest entry: {}'.format(get_most_recent_record())
+
+def update_status():
+    status_text = 'Latest entry: {}'.format(
+        get_most_recent_record('swdata', 'date'))
     print(status_text)
 
     scraperwiki.status('ok', status_text)
@@ -42,7 +46,7 @@ def download_url(url):
     return StringIO(response.content)
 
 
-def get_most_recent_record(table_name='swdata', column='date'):
+def get_most_recent_record(table_name, column):
     result = scraperwiki.sql.select(
         "MAX({1}) AS most_recent FROM {0} LIMIT 1".format(table_name, column))
     return result[0]['most_recent']
@@ -53,6 +57,7 @@ def process(f):
     Take a file-like object and yield OrderedDicts.
     """
     row = OrderedDict([
+        ('date', datetime.datetime.now()),
         ('demo_column_a', True),
         ('demo_column_b', 7.0)])
     yield row
