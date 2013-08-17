@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
-from collections import OrderedDict
+from nose.tools import assert_equal
 from os.path import join, dirname, abspath
 
 from main import process
@@ -10,19 +10,11 @@ SAMPLE_DIR = join(dirname(abspath(__file__)), 'sample_data')
 
 
 class ScraperTestCase(unittest.TestCase):
-    def setUp(self):
-        """Run before each and every test method."""
-        pass
+    @classmethod
+    def setUpClass(cls):
+        """Run once before all tests in this test class."""
+        with open(join(SAMPLE_DIR, 'sample_data.html'), 'r') as f:
+            cls.rows = list(process(f))
 
-    def tearDown(self):
-        """Run afte reach and every test method"""
-        pass
-
-    def test_assert_raises(self):
-        empty_list = []
-        self.assertRaises(IndexError, lambda: empty_list[2])
-
-    def test_process_simple_html_yields_rows(self):
-        with open(join(SAMPLE_DIR, 'simple.html'), 'r') as f:
-            row_generator = process(f)
-            self.assertIsInstance(row_generator.next(), OrderedDict)
+    def test_correct_number_of_rows(self):
+        assert_equal(10, len(self.rows))
