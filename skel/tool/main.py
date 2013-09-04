@@ -8,6 +8,7 @@ import requests
 import requests_cache
 from collections import OrderedDict
 from cStringIO import StringIO
+import logging
 import datetime
 import scraperwiki
 
@@ -16,6 +17,7 @@ UNIQUE_KEYS = []
 
 
 def main():
+    logging.basicConfig(level=logging.DEBUG)
     install_cache()
 
     fobj = download_url(BASE_URL)
@@ -29,7 +31,7 @@ def main():
 def update_status():
     status_text = 'Latest entry: {}'.format(
         get_most_recent_record('swdata', 'date'))
-    print(status_text)
+    logging.info(status_text)
 
     scraperwiki.status('ok', status_text)
 
@@ -41,6 +43,7 @@ def install_cache():
 
 
 def download_url(url):
+    logging.debug("Download {}".format(url))
     response = requests.get(url)
     response.raise_for_status()
     return StringIO(response.content)
