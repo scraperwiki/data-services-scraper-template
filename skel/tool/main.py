@@ -2,14 +2,17 @@
 # encoding: utf-8
 
 from __future__ import unicode_literals
-import sys
+
 import codecs
+import datetime
+import logging
 import requests
 import requests_cache
+import sys
+
 from collections import OrderedDict
 from cStringIO import StringIO
-import logging
-import datetime
+
 import scraperwiki
 
 BASE_URL = 'http://www.google.com'
