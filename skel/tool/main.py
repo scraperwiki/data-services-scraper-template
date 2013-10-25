@@ -15,7 +15,15 @@ from cStringIO import StringIO
 
 import scraperwiki
 
-BASE_URL = 'http://www.google.com'
+BASE_URL = 'http://not.a.real.url'
+INDEX_URL = BASE_URL + '/demo_index_page.html'
+
+TEMPLATE_ROW = OrderedDict([
+    ('date', None),      # None values are set later
+    ('column_a', None),
+    ('column_b', 9),     # this row is always the same
+])
+
 UNIQUE_KEYS = []
 
 
@@ -23,7 +31,7 @@ def main():
     logging.basicConfig(level=logging.DEBUG)
     install_cache()
 
-    fobj = download_url(BASE_URL)
+    fobj = download_url(INDEX_URL)
     for row in process(fobj):
         scraperwiki.sqlite.save(
             unique_keys=UNIQUE_KEYS,
@@ -60,13 +68,17 @@ def get_most_recent_record(table_name, column):
 
 def process(f):
     """
-    Take a file-like object and yield OrderedDicts.
+    Take a file-like object and yield OrderedDicts to be inserted into db.
     """
-    row = OrderedDict([
-        ('date', datetime.datetime.now()),
-        ('demo_column_a', True),
-        ('demo_column_b', 7.0)])
-    yield row
+
+    yield make_row(10)
+
+
+def make_row(value):
+    row = TEMPLATE_ROW.copy()
+    row['date'] = datetime.datetime.now()
+    row['column_a'] = value
+    return
 
 if __name__ == '__main__':
     sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
