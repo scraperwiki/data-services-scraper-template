@@ -139,6 +139,16 @@ def _get_domain(url):
     return urlparse.urlparse(url).netloc
 
 
+def test_rate_limit_touch_url_works():
+
+    time = datetime.datetime(2010, 11, 1, 10, 15, 30)
+
+    with patch.dict(_LAST_TOUCH, {}, clear=True):
+        assert_equal({}, _LAST_TOUCH)
+        _rate_limit_touch_url('http://foo.com/bar', now=time)
+        assert_equal({'foo.com': time}, _LAST_TOUCH)
+
+
 @patch('time.sleep')
 def test_rate_limit_no_sleep_if_outside_period(mock_sleep):
     previous_time = datetime.datetime(2013, 10, 1, 10, 15, 30)
