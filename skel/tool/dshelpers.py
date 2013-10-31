@@ -15,7 +15,6 @@ from cStringIO import StringIO
 
 import scraperwiki
 
-_RECOVERABLE_CODES = [500, 503]
 _MAX_RETRIES = 5
 
 __all__ = ["update_status", "install_cache", "download_url"]
@@ -73,21 +72,13 @@ def _download_with_backoff(url):
     next_delay = 10
 
     for n in range(0, _MAX_RETRIES):
-        logging.info("Download {}".format(url))
-        response = requests.get(url)
         try:
-            response.raise_for_status()
-        except requests.exceptions.HTTPError as e:
-            if response.status_code in _RECOVERABLE_CODES:
-                logging.info(
-                    "{}\nretrying in {} seconds".format(e, next_delay))
-                time.sleep(next_delay)
-                next_delay *= 2
-            else:
-                logging.exception(e)
-                raise
-        else:
-            return StringIO(response.content)
+            return _download_without_backoff(url)
+        except requests.exceptions.RequestException as e:
+            logging.exception(e)
+            logging.info("Retrying in {} seconds: {}".format(next_delay, url))
+            time.sleep(next_delay)
+            next_delay *= 2
 
     raise RuntimeError('Max retries exceeded for {0}'.format(url))
 
