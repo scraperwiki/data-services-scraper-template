@@ -17,7 +17,7 @@ __all__ = ["update_status", "install_cache", "download_url"]
 def update_status(table_name="swdata", date_column="date"):
     """
     Set the status endpoint on ScraperWiki to the latest entry e.g.
-    'Latest entry: 2013-10-1'
+    'Latest entry: 2013-10-01'
     """
     status_text = 'Latest entry: {}'.format(
         _get_most_recent_record(table_name, date_column))
