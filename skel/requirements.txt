@@ -4,6 +4,7 @@
 # -e git+git@github.com:scraperwiki/xypath.git@1.2.3#egg=xypath
 
 nose
+mock>=1.0.1
 requests>=1.2.0
 requests-cache>=0.4.2
 scraperwiki>=0.3.2
