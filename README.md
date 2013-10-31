@@ -1,5 +1,7 @@
 # Template layout for scrapers made by data services.
 
+## Install
+
 SSH into a fresh dataset, then run the following commands:
 
     mkdir ~/BAK && mv ~/tool ~/incoming ~/http ~/BAK
@@ -32,3 +34,42 @@ Finally, activate your scraper (enable crontab, create virtualenv etc) by
 running the following command:
 
     ./tool/first_run.sh
+
+# Using the template
+
+The entry point for your code is ``tool/main.py``. If you're scraping a single
+type of data you should probably keep all the code in that one file.
+
+Sample data lives in ``tool/sample_data`` and should encompass every type of
+file that the code works on (if you think this is excessive, try debugging in
+6 months when the site has changed and you don't know how it used to look...)
+
+Tests live in ``tool/tests.py`` and can be invoked from the ``tool/`` directory
+by running ``nosetests``.
+
+Requirements live in ``requirements.txt`` which is automatically installed into
+the virtualenv when you use ``tool/first_run.sh``
+
+In production, you should use ``~/run.sh`` to actually invoke the code. It's
+how cron runs the code, and deliberately takes no arguments so that you can
+easily reproduce what cron does.
+
+Be aware that ``run.sh`` redirects output to the ``log/`` directory (see
+``~/log/latest`` and supresses stdout unless there's an error, ie your
+program exits with a nonzero error code.
+
+# Code best practice
+
+You should try and stick to the convention of using a ``process(f)`` function
+which takes a file-like object (ie a web-page) and yields ``OrderedDicts``
+representing rows to save to the database.
+
+Using file-like objects allows us to access ``process(f)`` from both 
+``main.py`` and ``tests.py`` without having to load huge files into memory.
+
+# Logging
+
+You should favour ``logging.info(..)`` over ``print(..)`` as we use the logging
+basic configuration by default.
+
+Do use at least info and debug log levels appropriately throughout the code.
