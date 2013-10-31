@@ -64,7 +64,7 @@ def _download_without_backoff(url):
     Get the content of a URL and return a file-like object.
     """
     logging.info("Download {}".format(url))
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     response.raise_for_status()
     return StringIO(response.content)
 
