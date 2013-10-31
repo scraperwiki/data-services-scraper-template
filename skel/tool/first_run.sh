@@ -21,6 +21,13 @@ pip install -r requirements.txt
 if [ "`crontab -l`" == "" ]; then
     echo "Installing tool/crontab.txt"
     crontab tool/crontab.txt
+    
+    echo "########## MAIL CONFIGURATION ##########"
+    echo
+    crontab -l |grep MAILTO
+    echo
+    echo "########################################"
+
 else
     echo "WARNING: not overwriting your existing crontab. You need to manually"
     echo "         run: crontab tool/crontab.txt"
