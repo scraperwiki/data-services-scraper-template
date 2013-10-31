@@ -85,6 +85,9 @@ def _download_without_backoff(url):
     logging.info("Download {}".format(url))
     response = requests.get(url, timeout=_TIMEOUT)
     response.raise_for_status()
+    if not hasattr(response, 'from_cache'):
+        _rate_limit_touch_url(url)
+
     return StringIO(response.content)
 
 
@@ -117,7 +120,9 @@ def _rate_limit_for_url(url, now=datetime.datetime.now()):
             wait = _HIT_PERIOD - delta.total_seconds()
             time.sleep(wait)
 
-    _LAST_TOUCH[domain] = now
+
+def _rate_limit_touch_url(url, now=datetime.datetime.now()):
+    _LAST_TOUCH[_get_domain(url)] = now
 
 
 def _get_domain(url):
@@ -132,7 +137,8 @@ def _get_domain(url):
 def test_rate_limit_no_sleep_if_outside_period(mock_sleep):
     previous_time = datetime.datetime(2013, 10, 1, 10, 15, 30)
 
-    with patch.dict(_LAST_TOUCH, {'foo.com': previous_time}, clear=True):
+    with patch.dict(_LAST_TOUCH, {}, clear=True):
+        _rate_limit_touch_url('http://foo.com/bar', now=previous_time)
         _rate_limit_for_url(
             'http://foo.com/bar',
             now=previous_time + datetime.timedelta(seconds=_HIT_PERIOD))
@@ -144,7 +150,15 @@ def test_rate_limit_no_sleep_if_outside_period(mock_sleep):
 def test_rate_limit_sleeps_up_to_correct_period(mock_sleep):
     previous_time = datetime.datetime(2013, 10, 1, 10, 15, 30)
 
-    with patch.dict(_LAST_TOUCH, {'foo.com': previous_time}, clear=True):
+    with patch.dict(_LAST_TOUCH, {}, clear=True):
+        _rate_limit_for_url(
+            'http://foo.com/bar',
+            now=previous_time)
+
+        mock_sleep.assert_not_called()
+
+        _rate_limit_touch_url('http://foo.com/bar', now=previous_time)
+
         _rate_limit_for_url(
             'http://foo.com/bar',
             now=previous_time + datetime.timedelta(
