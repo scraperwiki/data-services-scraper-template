@@ -3,22 +3,30 @@
 
 from __future__ import unicode_literals
 
+import datetime
 import logging
 import requests
 import requests_cache
 import time
+import urlparse
+
+from contextlib import contextmanager
+from cStringIO import StringIO
 
 from nose.tools import assert_equal, assert_raises
 from mock import call, patch
-
-from cStringIO import StringIO
 
 import scraperwiki
 
 _MAX_RETRIES = 5
 _TIMEOUT = 60
+_HIT_PERIOD = 2  # seconds between requests to the same domain
 
-__all__ = ["update_status", "install_cache", "download_url"]
+_RATE_LIMIT_ENABLED = True  # Used inside rate_limit_disabled() context manager
+_LAST_TOUCH = {}            # domain name => datetime
+
+__all__ = ["update_status", "install_cache", "download_url",
+           "rate_limit_disabled"]
 
 
 def update_status(table_name="swdata", date_column="date"):
@@ -59,10 +67,21 @@ def download_url(url, back_off=True):
         return _download_without_backoff(url)
 
 
+@contextmanager
+def rate_limit_disabled():
+    global _RATE_LIMIT_ENABLED
+    _RATE_LIMIT_ENABLED = False
+    try:
+        yield
+    finally:
+        _RATE_LIMIT_ENABLED = True
+
+
 def _download_without_backoff(url):
     """
     Get the content of a URL and return a file-like object.
     """
+    _rate_limit_for_url(url)
     logging.info("Download {}".format(url))
     response = requests.get(url, timeout=_TIMEOUT)
     response.raise_for_status()
@@ -82,6 +101,56 @@ def _download_with_backoff(url):
             next_delay *= 2
 
     raise RuntimeError('Max retries exceeded for {0}'.format(url))
+
+
+def _rate_limit_for_url(url, now=datetime.datetime.now()):
+    """
+    """
+    if not _RATE_LIMIT_ENABLED:
+        return
+    domain = _get_domain(url)
+    last_touch = _LAST_TOUCH.get(domain)
+
+    if last_touch:
+        delta = now - last_touch
+        if delta < datetime.timedelta(seconds=_HIT_PERIOD):
+            wait = _HIT_PERIOD - delta.total_seconds()
+            time.sleep(wait)
+
+    _LAST_TOUCH[domain] = now
+
+
+def _get_domain(url):
+    """
+    _get_domain('http://foo.bar/baz/')
+    u'foo.bar'
+    """
+    return urlparse.urlparse(url).netloc
+
+
+@patch('time.sleep')
+def test_rate_limit_no_sleep_if_outside_period(mock_sleep):
+    previous_time = datetime.datetime(2013, 10, 1, 10, 15, 30)
+
+    with patch.dict(_LAST_TOUCH, {'foo.com': previous_time}, clear=True):
+        _rate_limit_for_url(
+            'http://foo.com/bar',
+            now=previous_time + datetime.timedelta(seconds=_HIT_PERIOD))
+
+    mock_sleep.assert_not_called()
+
+
+@patch('time.sleep')
+def test_rate_limit_sleeps_up_to_correct_period(mock_sleep):
+    previous_time = datetime.datetime(2013, 10, 1, 10, 15, 30)
+
+    with patch.dict(_LAST_TOUCH, {'foo.com': previous_time}, clear=True):
+        _rate_limit_for_url(
+            'http://foo.com/bar',
+            now=previous_time + datetime.timedelta(
+                seconds=1, microseconds=500000))
+
+    mock_sleep.assert_called_once_with(_HIT_PERIOD - 1.5)
 
 
 @patch('dshelpers.requests.get')
@@ -112,7 +181,11 @@ def test_backoff_function_works_after_one_failure(
 
     mock_requests_get.side_effect = response_generator()
 
-    assert_equal("Hello", _download_with_backoff('http://fake_url.com').read())
+    with rate_limit_disabled():
+        assert_equal(
+            "Hello",
+            _download_with_backoff('http://fake_url.com').read())
+
     assert_equal(
         [call(10), call(20)],
         mock_sleep.call_args_list)
@@ -131,8 +204,10 @@ def test_backoff_raises_on_five_failures(mock_requests_get, mock_sleep):
 
     mock_requests_get.return_value = fake_response
 
-    assert_raises(RuntimeError, lambda:
-                  _download_with_backoff('http://fake_url.com'))
+    with rate_limit_disabled():
+        assert_raises(RuntimeError, lambda:
+                      _download_with_backoff('http://fake_url.com'))
+
     assert_equal(
         [call(10), call(20), call(40), call(80), call(160)],
         mock_sleep.call_args_list)
