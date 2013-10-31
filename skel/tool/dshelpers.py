@@ -32,12 +32,12 @@ def _get_most_recent_record(table_name, column):
     return result[0]['most_recent']
 
 
-def install_cache():
+def install_cache(expire_after=12*3600):
     """
-    Patches the requests library with a default cache.
+    Patches the requests library with requests_cache.
     """
     requests_cache.install_cache(
-        expire_after=(12 * 60 * 60),
+        expire_after=expire_after,
         allowable_methods=('GET',))
 
 
