@@ -9,6 +9,7 @@ import requests_cache
 import time
 
 from nose.tools import assert_equal, assert_raises
+from mock import call, patch
 
 from cStringIO import StringIO
 
@@ -91,9 +92,6 @@ def _download_with_backoff(url):
     raise RuntimeError('Max retries exceeded for {0}'.format(url))
 
 
-from mock import call, patch
-
-
 @patch('dshelpers.requests.get')
 def test_backoff_function_works_on_a_good_site(mock_requests_get):
     fake_response = requests.Response()
@@ -140,7 +138,6 @@ def test_backoff_raises_on_five_failures(mock_requests_get, mock_sleep):
     fake_response.status_code = 500
 
     mock_requests_get.return_value = fake_response
-    #_download_with_backoff('http://fake_url.com')
 
     assert_raises(RuntimeError, lambda:
                   _download_with_backoff('http://fake_url.com'))
