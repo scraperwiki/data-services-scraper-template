@@ -18,6 +18,8 @@ from mock import call, patch
 
 import scraperwiki
 
+L = logging.getLogger('sw.ds.helpers')
+
 _MAX_RETRIES = 5
 _TIMEOUT = 60
 _HIT_PERIOD = 2  # seconds between requests to the same domain
@@ -36,7 +38,7 @@ def update_status(table_name="swdata", date_column="date"):
     """
     status_text = 'Latest entry: {}'.format(
         _get_most_recent_record(table_name, date_column))
-    logging.info(status_text)
+    L.info(status_text)
 
     scraperwiki.status('ok', status_text)
 
@@ -86,7 +88,7 @@ def _download_without_backoff(url):
         _rate_limit_for_url(url, now)
         _rate_limit_touch_url(url, now)
 
-    logging.info("Download {}".format(url))
+    L.info("Download {}".format(url))
     response = requests.get(url, timeout=_TIMEOUT)
     response.raise_for_status()
 
@@ -100,8 +102,8 @@ def _download_with_backoff(url):
         try:
             return _download_without_backoff(url)
         except requests.exceptions.RequestException as e:
-            logging.exception(e)
-            logging.info("Retrying in {} seconds: {}".format(next_delay, url))
+            L.exception(e)
+            L.info("Retrying in {} seconds: {}".format(next_delay, url))
             time.sleep(next_delay)
             next_delay *= 2
 
@@ -131,7 +133,7 @@ def _rate_limit_for_url(url, now=datetime.datetime.now()):
         delta = now - last_touch
         if delta < datetime.timedelta(seconds=_HIT_PERIOD):
             wait = _HIT_PERIOD - delta.total_seconds()
-            logging.debug("Rate limiter: waiting {}s".format(wait))
+            L.debug("Rate limiter: sleeping {}s".format(wait))
             time.sleep(wait)
 
 
@@ -139,7 +141,7 @@ def _rate_limit_touch_url(url, now=None):
     if now is None:
         now = datetime.datetime.now()
     domain = _get_domain(url)
-    logging.debug("Touching domain {} at {}".format(domain, now))
+    L.debug("Recording hit for domain {} at {}".format(domain, now))
     _LAST_TOUCH[domain] = now
 
 
