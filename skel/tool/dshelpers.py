@@ -81,12 +81,13 @@ def _download_without_backoff(url):
     """
     Get the content of a URL and return a file-like object.
     """
-    _rate_limit_for_url(url)
+    now = datetime.datetime.now()
+    _rate_limit_for_url(url, now)
     logging.info("Download {}".format(url))
     response = requests.get(url, timeout=_TIMEOUT)
     response.raise_for_status()
     if not hasattr(response, 'from_cache'):
-        _rate_limit_touch_url(url)
+        _rate_limit_touch_url(url, now)
 
     return StringIO(response.content)
 
@@ -118,11 +119,16 @@ def _rate_limit_for_url(url, now=datetime.datetime.now()):
         delta = now - last_touch
         if delta < datetime.timedelta(seconds=_HIT_PERIOD):
             wait = _HIT_PERIOD - delta.total_seconds()
+            logging.debug("Rate limiter: waiting {}s".format(wait))
             time.sleep(wait)
 
 
-def _rate_limit_touch_url(url, now=datetime.datetime.now()):
-    _LAST_TOUCH[_get_domain(url)] = now
+def _rate_limit_touch_url(url, now=None):
+    if now is None:
+        now = datetime.datetime.now()
+    domain = _get_domain(url)
+    logging.debug("Touching domain {} at {}".format(domain, now))
+    _LAST_TOUCH[domain] = now
 
 
 def _get_domain(url):
