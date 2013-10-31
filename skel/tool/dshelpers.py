@@ -81,13 +81,14 @@ def _download_without_backoff(url):
     """
     Get the content of a URL and return a file-like object.
     """
-    now = datetime.datetime.now()
-    _rate_limit_for_url(url, now)
+    if not _url_in_cache(url):
+        now = datetime.datetime.now()
+        _rate_limit_for_url(url, now)
+        _rate_limit_touch_url(url, now)
+
     logging.info("Download {}".format(url))
     response = requests.get(url, timeout=_TIMEOUT)
     response.raise_for_status()
-    if not hasattr(response, 'from_cache'):
-        _rate_limit_touch_url(url, now)
 
     return StringIO(response.content)
 
@@ -105,6 +106,17 @@ def _download_with_backoff(url):
             next_delay *= 2
 
     raise RuntimeError('Max retries exceeded for {0}'.format(url))
+
+
+def _url_in_cache(url):
+    """
+    If requests_cache is in use, return whether or not the URL is in the cache.
+    If not, return False.
+    """
+    try:
+        return requests_cache.has_url(url)
+    except AttributeError:  # requests_cache not enabled
+        return False
 
 
 def _rate_limit_for_url(url, now=datetime.datetime.now()):
