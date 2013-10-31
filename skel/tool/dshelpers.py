@@ -16,6 +16,7 @@ from cStringIO import StringIO
 import scraperwiki
 
 _MAX_RETRIES = 5
+_TIMEOUT = 60
 
 __all__ = ["update_status", "install_cache", "download_url"]
 
@@ -63,7 +64,7 @@ def _download_without_backoff(url):
     Get the content of a URL and return a file-like object.
     """
     logging.info("Download {}".format(url))
-    response = requests.get(url, timeout=60)
+    response = requests.get(url, timeout=_TIMEOUT)
     response.raise_for_status()
     return StringIO(response.content)
 
@@ -116,9 +117,9 @@ def test_backoff_function_works_after_one_failure(
         [call(10), call(20)],
         mock_sleep.call_args_list)
     assert_equal(
-        [call('http://fake_url.com'),
-         call('http://fake_url.com'),
-         call('http://fake_url.com')],
+        [call('http://fake_url.com', timeout=_TIMEOUT),
+         call('http://fake_url.com', timeout=_TIMEOUT),
+         call('http://fake_url.com', timeout=_TIMEOUT)],
         mock_requests_get.call_args_list)
 
 
