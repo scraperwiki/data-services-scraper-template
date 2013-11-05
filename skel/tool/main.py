@@ -31,6 +31,7 @@ def main():
 
     fobj = download_url(INDEX_URL)
     for row in process(fobj):
+        logging.info(','.join(['{}'.format(v) for v in row.values()]))
         scraperwiki.sqlite.save(
             unique_keys=UNIQUE_KEYS,
             data=row)
