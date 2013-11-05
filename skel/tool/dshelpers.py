@@ -116,9 +116,11 @@ def _url_in_cache(url):
     If not, return False.
     """
     try:
-        return requests_cache.has_url(url)
-    except AttributeError:  # requests_cache not enabled
-        return False
+        return requests_cache.get_cache().has_url(url)
+    except AttributeError as e:  # requests_cache not enabled
+        if e.message == "'Session' object has no attribute 'cache'":
+            return False
+        raise
 
 
 def _rate_limit_for_url(url, now=datetime.datetime.now()):
