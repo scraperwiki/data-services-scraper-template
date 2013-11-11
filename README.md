@@ -73,3 +73,16 @@ You should favour ``logging.info(..)`` over ``print(..)`` as we use the logging
 basic configuration by default.
 
 Do use at least info and debug log levels appropriately throughout the code.
+
+# Licence
+
+Everything within this *template* repo is licenced according to the top-level
+LICENCE file.
+
+Any new scraper which is generated from this template can have its own licence.
+
+By default this is the ScraperWiki proprietary licence which lives within
+the ``skel/`` directory.
+
+The LICENCE file inside ``skel/`` is only a suggestion for scrapers built from
+the template; it has it has no effect on *this* template repo.
