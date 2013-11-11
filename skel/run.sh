@@ -7,9 +7,7 @@
 DATE_NOW=$(date +%Y-%m-%d_%H-%M-%S)
 LOG_DIR=~/log
 
-if [ ${SW_STATUS_URL} == "" ]; then
-    SW_STATUS_URL='https://scraperwiki.com/api/status'
-fi
+SW_STATUS_URL=${SW_STATUS_URL-https://scraperwiki.com/api/status}
 
 mkdir -p ${LOG_DIR}
 LOG_FILE=${LOG_DIR}/${DATE_NOW}.log
