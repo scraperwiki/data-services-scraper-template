@@ -26,7 +26,7 @@ source ${VENV_DIR}/bin/activate
 for command in tool/main.py tool/main.sh
 do
     if [ -f "$command" ]; then
-        run-one script -c "${command}" -e ${LOG_FILE} > /dev/null 2>&1
+        run-one ${command} >> ${LOG_FILE} 2>&1
         RETCODE=$?
         if [ ${RETCODE} != 0 ]; then
             echo "$@ exited with code: ${RETCODE}"
