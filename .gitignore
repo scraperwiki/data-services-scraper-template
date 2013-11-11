@@ -1,0 +1,3 @@
+*.pyc
+skel/scraperwiki.sqlite
+skel/cache.sqlite
