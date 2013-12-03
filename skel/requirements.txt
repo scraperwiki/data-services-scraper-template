@@ -8,7 +8,7 @@ mock>=1.0.1
 requests>=1.2.0
 requests-cache>=0.4.2
 scraperwiki>=0.3.2
--e git+https://github.com/scraperwiki/data-services-helpers@1.0.0#egg=dshelpers
+-e git+https://github.com/scraperwiki/data-services-helpers@1.0.2#egg=dshelpers
 
 # python-dateutil>=1.5
 # lxml>=3.2.0

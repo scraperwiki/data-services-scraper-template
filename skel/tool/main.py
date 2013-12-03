@@ -11,7 +11,8 @@ import sys
 from collections import OrderedDict
 
 import scraperwiki
-from dshelpers import update_status, download_url, install_cache
+from dshelpers import (update_status, download_url, install_cache,
+                       batch_processor)
 
 BASE_URL = 'http://not.a.real.url'
 INDEX_URL = BASE_URL + '/demo_index_page.html'
@@ -30,12 +31,18 @@ def main():
     install_cache()
 
     fobj = download_url(INDEX_URL)
-    for row in process(fobj):
-        logging.info(','.join(['{}'.format(v) for v in row.values()]))
-        scraperwiki.sqlite.save(
-            unique_keys=UNIQUE_KEYS,
-            data=row)
+    with batch_processor(save_rows, batch_size=5000) as b:
+        for row in process(fobj):
+            logging.info(','.join(['{}'.format(v) for v in row.values()]))
+            b.push(row)
+
     update_status()
+
+
+def save_rows(rows):
+    scraperwiki.sqlite.save(
+        unique_keys=UNIQUE_KEYS,
+        data=rows)
 
 
 def process(f):
