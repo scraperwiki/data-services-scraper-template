@@ -14,5 +14,5 @@ The processed output is found in the **foo** table of the dataset.
 
 # Logging
 
-The scraper records a full log of each run in its [log directory](./log)
+The scraper records a full log of each run in its [log directory](./log/)
 
