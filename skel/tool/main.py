@@ -57,7 +57,7 @@ def make_row(value):
     row = TEMPLATE_ROW.copy()
     row['date'] = datetime.datetime.now()
     row['column_a'] = value
-    return
+    return row
 
 if __name__ == '__main__':
     sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
