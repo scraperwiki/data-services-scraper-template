@@ -27,13 +27,13 @@ UNIQUE_KEYS = []
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     install_cache()
 
     fobj = download_url(INDEX_URL)
     with batch_processor(save_rows, batch_size=5000) as b:
         for row in process(fobj):
-            logging.info(','.join(['{}'.format(v) for v in row.values()]))
+            logging.debug(','.join(['{}'.format(v) for v in row.values()]))
             b.push(row)
 
     update_status()
