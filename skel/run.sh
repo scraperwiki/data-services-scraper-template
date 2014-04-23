@@ -21,7 +21,7 @@ if [ ! -d "${VENV_DIR}" ]; then
 fi
 
 source ${VENV_DIR}/bin/activate
-for command in tool/main.py tool/main.sh
+for command in tool/main.py tool/main.sh "$@"
 do
     if [ -f "$command" ]; then
         run-one ${command} >> ${LOG_FILE} 2>&1
