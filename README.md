@@ -85,4 +85,4 @@ By default this is the ScraperWiki proprietary licence which lives within
 the ``skel/`` directory.
 
 The LICENCE file inside ``skel/`` is only a suggestion for scrapers built from
-the template; it has it has no effect on *this* template repo.
+the template; it has no effect on *this* template repo.
