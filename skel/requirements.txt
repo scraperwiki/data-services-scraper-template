@@ -1,14 +1,12 @@
 # Use pip install -r requirements.txt to install
 #
-# You can install a specific tag from github like this:
-# -e git+git@github.com:scraperwiki/xypath.git@1.2.3#egg=xypath
 
 nose
 mock>=1.0.1
 requests>=1.2.0
 requests-cache>=0.4.2
 scraperwiki>=0.3.2
--e git+https://github.com/scraperwiki/data-services-helpers@1.0.3#egg=dshelpers
+dshelpers>=1.0.4
 
 # python-dateutil>=1.5
 # lxml>=3.2.0
