@@ -25,9 +25,5 @@ MAILTO="dataservices@scraperwiki.com"
 # @hourly  Run once an hour at the beginning of the hour                           0 * * * *
 # @reboot  Run at startup
 
-# Automatically install the crontab file from source-control.
-* * * * * crontab %TARGET_DIR%/tool/crontab.txt
-
 # Run the scraper. The only changes to this line should be the schedule.
 @daily %TARGET_DIR%/run.sh
-
