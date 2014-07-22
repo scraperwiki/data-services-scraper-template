@@ -2,8 +2,8 @@ MAILTO="dataservices@scraperwiki.com"
 
 ################################## IMPORTANT! #######################################
 #
-# Don't edit the crontab using 'crontab -e' as it will be overwritten, and it isn't
-# source-controlled. Edit %TARGET_DIR%/tool/crontab.txt instead!
+# Don't edit the crontab using 'crontab -e' as it isn't source-controlled.
+# Edit %TARGET_DIR%/tool/crontab.txt instead!
 #
 ##################################################################################### 
 
