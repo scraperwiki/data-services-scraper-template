@@ -5,7 +5,7 @@
 SSH into a fresh dataset, then run the following commands:
 
     mkdir ~/BAK && mv ~/tool ~/incoming ~/http ~/BAK
-    git clone git@bitbucket.org:scraperwikids/data-services-scraper-template.git
+    git clone git@bitbucket.org:sensiblecode/data-services-scraper-template.git
     ./data-services-scraper-template/install.sh .
 
 Now you have a brand new local git repo at the top level. It is safe to remove
