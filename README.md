@@ -81,7 +81,7 @@ LICENCE file.
 
 Any new scraper which is generated from this template can have its own licence.
 
-By default this is the ScraperWiki proprietary licence which lives within
+By default this is the Sensible Code proprietary licence which lives within
 the ``skel/`` directory.
 
 The LICENCE file inside ``skel/`` is only a suggestion for scrapers built from
