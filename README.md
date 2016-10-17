@@ -5,7 +5,7 @@
 SSH into a fresh dataset, then run the following commands:
 
     mkdir ~/BAK && mv ~/tool ~/incoming ~/http ~/BAK
-    git clone git@bitbucket.org:scraperwikids/data-services-scraper-template.git
+    git clone git@bitbucket.org:sensiblecode/data-services-scraper-template.git
     ./data-services-scraper-template/install.sh .
 
 Now you have a brand new local git repo at the top level. It is safe to remove
@@ -81,7 +81,7 @@ LICENCE file.
 
 Any new scraper which is generated from this template can have its own licence.
 
-By default this is the ScraperWiki proprietary licence which lives within
+By default this is the Sensible Code proprietary licence which lives within
 the ``skel/`` directory.
 
 The LICENCE file inside ``skel/`` is only a suggestion for scrapers built from
