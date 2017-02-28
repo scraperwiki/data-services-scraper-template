@@ -7,7 +7,7 @@
 DATE_NOW=$(date +%Y-%m-%d_%H-%M-%S)
 LOG_DIR=~/log
 
-SW_STATUS_URL=${SW_STATUS_URL-https://scraperwiki.com/api/status}
+SW_STATUS_URL=${SW_STATUS_URL-https://app.quickcode.io/api/status}
 
 mkdir -p ${LOG_DIR}
 LOG_FILE=${LOG_DIR}/${DATE_NOW}.log
