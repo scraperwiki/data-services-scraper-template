@@ -1,4 +1,4 @@
-MAILTO="dataservices@scraperwiki.com"
+MAILTO="dataservices@sensiblecode.io"
 
 ################################## IMPORTANT! #######################################
 #
