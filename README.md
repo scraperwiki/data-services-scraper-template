@@ -1,5 +1,9 @@
 # Template layout for scrapers made by data services.
 
+NB: this repository was migrated from [Bitbucket](https://bitbucket.org/sensiblecode/data-services-scraper-template).
+Issues were migrated by hand; pull request comments have not
+been migrated.
+
 ## Install
 
 SSH into a fresh dataset, then run the following commands:
