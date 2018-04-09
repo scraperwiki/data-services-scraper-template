@@ -5,7 +5,7 @@
 SSH into a fresh dataset, then run the following commands:
 
     mkdir ~/BAK && mv ~/tool ~/incoming ~/http ~/BAK
-    git clone git@bitbucket.org:sensiblecode/data-services-scraper-template.git
+    git clone git@github.com:scraperwiki/data-services-scraper-template.git
     ./data-services-scraper-template/install.sh .
 
 Now you have a brand new local git repo at the top level. It is safe to remove
@@ -13,19 +13,19 @@ the template repo with this command:
 
     rm -rf ./data-services-scraper-template
 
-Now head over to BitBucket and create a new private repository for this
+Now head over to GitHub and create a new private repository for this
 scraper:
 
-[https://bitbucket.org/repo/create](https://bitbucket.org/repo/create)
+[https://github.com/new](https://github.com/new)
 
 Select "I have an existing project to push up".
 
 This will give you a 'git remote' command for linking the local repo to the
 new remote repo - you should run this now.
 
-Back in your box, edit ./README.md with the URL of the new repo in BitBucket.
+Back in your box, edit ./README.md with the URL of the new repo in GitHub.
 
-Now do your initial commit and push to BitBucket:
+Now do your initial commit and push to GitHub:
 
     git status
     git push -u origin --all   # to push up the repo for the first time
